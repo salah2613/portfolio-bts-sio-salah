@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portefolio de Compétences – BTS SIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2026;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --accent: #4f7fff;
+    --accent2: #7eb3ff;
+    --text: #f0f1f3;
+    --muted: #8a8f9e;
+    --muted2: #c4c8d4;
+    --green: #3ecf7a;
+    --orange: #f59e42;
+    --red: #f06060;
+    --tag-bg: rgba(79,127,255,0.12);
+    --tag-text: #7eb3ff;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 240px;
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.25rem;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo span { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
+  .nav-group { margin-bottom: 1.5rem; }
+  .nav-group-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    padding-left: 10px;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--muted2);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .nav-link:hover { background: var(--surface2); color: var(--text); }
+  .nav-link.active { background: rgba(79,127,255,0.15); color: var(--accent2); }
+  .nav-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border2); flex-shrink: 0;
+  }
+  .nav-link.active .nav-dot { background: var(--accent); }
+
+  /* MAIN */
+  .main {
+    margin-left: 240px;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 4rem 3rem 3rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,127,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 99px;
+    border: 1px solid rgba(79,127,255,0.25);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent2); }
+  .hero-sub { color: var(--muted2); font-size: 16px; margin-bottom: 2rem; max-width: 560px; }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .meta-value { font-size: 14px; font-weight: 500; color: var(--text); }
+
+  /* PAGE */
+  .page { display: none; padding: 2.5rem 3rem; }
+  .page.active { display: block; }
+  .page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .page-desc { color: var(--muted2); font-size: 14px; margin-bottom: 2rem; }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .card-subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+    flex-shrink: 0;
+  }
+  .badge-blue { background: rgba(79,127,255,0.15); color: var(--accent2); border: 1px solid rgba(79,127,255,0.25); }
+  .badge-green { background: rgba(62,207,122,0.12); color: var(--green); border: 1px solid rgba(62,207,122,0.25); }
+  .badge-orange { background: rgba(245,158,66,0.12); color: var(--orange); border: 1px solid rgba(245,158,66,0.25); }
+  .badge-red { background: rgba(240,96,96,0.12); color: var(--red); border: 1px solid rgba(240,96,96,0.25); }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+  /* FIELD */
+  .field { margin-bottom: 1rem; }
+  .field:last-child { margin-bottom: 0; }
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .field-content {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--muted2);
+    line-height: 1.6;
+  }
+  .field-content.placeholder { color: var(--muted); font-style: italic; }
+  .field-content.highlight { color: var(--text); border-color: var(--border2); }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+  .tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background: var(--surface2);
+    color: var(--muted2);
+    border: 1px solid var(--border2);
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.25rem 0;
+  }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 10px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--border2); }
+  .check-item.done { border-color: rgba(62,207,122,0.3); }
+  .check-box {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .check-item.done .check-box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .check-icon { display: none; }
+  .check-item.done .check-icon {
+    display: block;
+    width: 10px; height: 7px;
+    border-left: 2px solid #0e0f11;
+    border-bottom: 2px solid #0e0f11;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+  .check-text { flex: 1; }
+  .check-status { font-size: 11px; font-weight: 600; color: var(--muted); }
+  .check-item.done .check-status { color: var(--green); }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: var(--surface2);
+    border-radius: 99px;
+    height: 6px;
+    overflow: hidden;
+    margin: 1rem 0 6px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    transition: width 0.5s ease;
+  }
+  .progress-label { font-size: 12px; color: var(--muted); }
+
+  /* VEILLE */
+  .veille-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .veille-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    transition: border-color 0.15s;
+  }
+  .veille-card:hover { border-color: var(--border2); }
+  .veille-icon {
+    width: 38px; height: 38px;
+    border-radius: var(--radius-sm);
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .veille-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .veille-card p { font-size: 12.5px; color: var(--muted); }
+
+  /* STAT CARDS */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--accent2); }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin: 2rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .sidebar { width: 200px; }
+    .main { margin-left: 200px; }
+    .hero { padding: 2rem 1.5rem; }
+    .page { padding: 1.5rem; }
+    .hero h1 { font-size: 28px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .veille-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .mobile-nav { display: flex; }
+  }
+
+  /* MOBILE NAV */
+  .mobile-nav {
+    display: none;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    gap: 6px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .mobile-nav a {
+    white-space: nowrap;
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted2);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .mobile-nav a.active { background: var(--tag-bg); color: var(--accent2); border-color: rgba(79,127,255,0.3); }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .page.active { animation: fadeIn 0.25s ease; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    BTS SIO
+    <span>Portefolio E6 · 2025–2026</span>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Accueil</div>
+    <a class="nav-link active" onclick="showPage('accueil')"><div class="nav-dot"></div>Vue d'ensemble</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Projets PPE</div>
+    <a class="nav-link" onclick="showPage('ppe1')"><div class="nav-dot"></div>PPE1 – Rés &amp; Dév</a>
+    <a class="nav-link" onclick="showPage('ppe2')"><div class="nav-dot"></div>PPE2 – Phase 1 &amp; 2</a>
+    <a class="nav-link" onclick="showPage('ppe34')"><div class="nav-dot"></div>PPE34 – Phase 1, 2, 3</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Stages</div>
+    <a class="nav-link" onclick="showPage('stage1')"><div class="nav-dot"></div>Stage 1</a>
+    <a class="nav-link" onclick="showPage('stage2')"><div class="nav-dot"></div>Stage 2</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Autres</div>
+    <a class="nav-link" onclick="showPage('veille')"><div class="nav-dot"></div>Veille technologique</a>
+    <a class="nav-link" onclick="showPage('docs')"><div class="nav-dot"></div>Documents obligatoires</a>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a class="active" onclick="showPage('accueil')">Accueil</a>
+  <a onclick="showPage('ppe1')">PPE1</a>
+  <a onclick="showPage('ppe2')">PPE2</a>
+  <a onclick="showPage('ppe34')">PPE34</a>
+  <a onclick="showPage('stage1')">Stage 1</a>
+  <a onclick="showPage('stage2')">Stage 2</a>
+  <a onclick="showPage('veille')">Veille</a>
+  <a onclick="showPage('docs')">Documents</a>
+</div>
+
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Épreuve E6 · Parcours de professionnalisation</div>
+    <h1>Portefolio de<br/><em>Compétences Numérique</em></h1>
+    <p class="hero-sub">CV numérique complet et approfondi accessible en ligne — BTS SIO 1ère année</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Étudiant</span>
+        <span class="meta-value"><!-- REMPLACE --> Salah Belkhir</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Établissement</span>
+        <span class="meta-value"><!-- REMPLACE --> Lycée Lamartine</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Option</span>
+        <span class="meta-value"><!-- REMPLACE --> SLAM </span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Année</span>
+        <span class="meta-value">2025 – 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Site hébergé sur</span>
+        <span class="meta-value"><!-- REMPLACE --> www.votresiteperso.fr</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE : ACCUEIL -->
+  <div class="page active" id="page-accueil">
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Projets PPE</div></div>
+      <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Stages en entreprise</div></div>
+      <div class="stat-card"><div class="stat-num">3+</div><div class="stat-label">Thèmes de veille</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-docs">0/5</div><div class="stat-label">Documents collectés</div></div>
+    </div>
+
+    <div class="section-label">Rubriques du Portefolio</div>
+    <div class="grid3">
+      <div class="card" style="cursor:pointer" onclick="showPage('ppe1')">
+        <div class="card-header"><div><div class="card-title">PPE1</div><div class="card-subtitle">Réseau &amp; Développement</div></div><span class="badge badge-blue">2 phases</span></div>
+        <div style="font-size:13px;color:var(--muted)">Projets réseau (configuration, adressage) et développement (applications, scripts).</div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('ppe2')">
+        <div class="card-header"><div><div class="card-title">PPE2</div><div class="card-subtitle">Phase 1 &amp; Phase 2</div></div><span class="badge badge-blue">2 phases</span></div>
+        <div style="font-size:13px;color:var(--muted)">Projets techniques approfondis avec documentation et livrables.</div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('ppe34')">
+        <div class="card-header"><div><div class="card-title">PPE34</div><div class="card-subtitle">Phase 1, 2 &amp; 3</div></div><span class="badge badge-blue">3 phases</span></div>
+        <div style="font-size:13px;color:var(--muted)">Projets d'envergure sur l'ensemble du BTS avec livrables complets.</div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('stage1')">
+        <div class="card-header"><div><div class="card-title">Stage 1</div><div class="card-subtitle">Missions en entreprise</div></div><span class="badge badge-orange">Stage</span></div>
+        <div style="font-size:13px;color:var(--muted)">Contexte, missions, compétences acquises et documents obligatoires.</div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('stage2')">
+        <div class="card-header"><div><div class="card-title">Stage 2</div><div class="card-subtitle">Missions en entreprise</div></div><span class="badge badge-orange">Stage</span></div>
+        <div style="font-size:13px;color:var(--muted)">Contexte, missions, compétences acquises et documents obligatoires.</div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('veille')">
+        <div class="card-header"><div><div class="card-title">Veille technologique</div><div class="card-subtitle">Outils &amp; thèmes</div></div><span class="badge badge-green">Continu</span></div>
+        <div style="font-size:13px;color:var(--muted)">Outils de veille, thèmes précis et outil de stockage de l'information.</div>
+      </div>
+    </div>
+
+    <div class="section-label">Avancement des documents obligatoires</div>
+    <div id="home-progress-wrap">
+      <div class="progress-wrap"><div class="progress-fill" id="home-progress-fill" style="width:0%"></div></div>
+      <div class="progress-label" id="home-progress-label">0 / 5 documents collectés</div>
+    </div>
+  </div>
+
+  <!-- PAGE : PPE1 -->
+  <div class="page" id="page-ppe1">
+    <div class="page-title">PPE1</div>
+    <div class="page-desc">Projets Pratiques Encadrés — Réseau (Rés) et Développement (Dév)</div>
+
+    <div class="section-label">PPE1 – Réseau (Rés)</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Projet réseau</div><div class="card-subtitle">Configuration et administration réseau</div></div>
+        <span class="badge badge-blue">Réseau</span>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <div class="field-label">Période</div>
+          <div class="field-content highlight"><!-- REMPLACE --> Septembre – Novembre 2024</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Contexte</div>
+          <div class="field-content highlight"><!-- REMPLACE --> Mise en place d'une infrastructure réseau pour une entreprise fictive</div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Objectifs</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Concevoir et configurer une architecture réseau sécurisée comprenant le découpage en sous-réseaux, la configuration des équipements actifs et la mise en place d'un plan d'adressage IP cohérent.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Outils utilisés</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Cisco Packet Tracer · VMware Workstation · Wireshark · PuTTY</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Description des missions</div>
+        <div class="field-content highlight"><!-- REMPLACE -->
+          Mission 1 : Analyse des besoins et conception du plan d'adressage IP.<br/>
+          Mission 2 : Configuration des routeurs et commutateurs sous Cisco IOS.<br/>
+          Mission 3 : Mise en place des VLANs et du routage inter-VLAN.<br/>
+          Mission 4 : Tests de connectivité et documentation technique.
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Schémas (réseau, base de données, diagramme de classes…)</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Insérer ici le lien vers les schémas réseau (Packet Tracer, draw.io…)</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Captures d'écran</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Liens vers captures d'écran de la configuration</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Problèmes rencontrés &amp; solutions mises en place</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Problème : conflit d'adresses IP entre deux sous-réseaux. Solution : révision du plan d'adressage et utilisation de masques /26 pour segmenter correctement les plages.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Liens vers documents PDF (cahier des charges, documentation technique, plan de test…)</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> www.votresiteperso.fr/ppe1-res/documentation.pdf</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Liens vers comptes rendus PDF</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> www.votresiteperso.fr/ppe1-res/compte-rendu.pdf</div>
+      </div>
+      <hr class="divider"/>
+      <div class="field-label">Liste des compétences mobilisées</div>
+      <div class="tags">
+        <span class="tag">Concevoir une infrastructure réseau</span>
+        <span class="tag">Plan d'adressage IPv4</span>
+        <span class="tag">Configuration VLAN</span>
+        <span class="tag">Routage statique/dynamique</span>
+        <span class="tag">Documentation technique</span>
+      </div>
+    </div>
+
+    <div class="section-label">PPE1 – Développement (Dév)</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Projet de développement</div><div class="card-subtitle">Application web ou logicielle</div></div>
+        <span class="badge badge-green">Développement</span>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <div class="field-label">Période</div>
+          <div class="field-content highlight"><!-- REMPLACE --> Janvier – Mars 2025</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Contexte</div>
+          <div class="field-content highlight"><!-- REMPLACE --> Développement d'une application de gestion pour une PME locale</div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Objectifs</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Concevoir et développer une application web permettant la gestion des clients et des commandes, avec une base de données relationnelle et une interface utilisateur intuitive.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Outils utilisés</div>
+        <div class="field-content highlight"><!-- REMPLACE --> PHP 8 · MySQL · HTML5 · CSS3 · JavaScript · VS Code · WAMP</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Description des missions</div>
+        <div class="field-content highlight"><!-- REMPLACE -->
+          Mission 1 : Analyse des besoins et rédaction du cahier des charges.<br/>
+          Mission 2 : Conception du MCD/MLD et création de la base de données.<br/>
+          Mission 3 : Développement du back-end PHP (CRUD complet).<br/>
+          Mission 4 : Développement du front-end et tests utilisateurs.
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Diagramme de classes / MCD / MLD</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Lien vers le diagramme UML ou schéma BDD</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Lien vers l'application ou le site</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> www.votresiteperso.fr/ppe1-dev/app/</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Problèmes rencontrés &amp; solutions</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Problème : injections SQL dans les formulaires. Solution : utilisation de requêtes préparées PDO et validation des entrées côté serveur.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Documents PDF</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Liens vers cahier des charges, doc technique, manuel utilisateur</div>
+      </div>
+      <hr class="divider"/>
+      <div class="field-label">Liste des compétences mobilisées</div>
+      <div class="tags">
+        <span class="tag">Développement PHP/MySQL</span>
+        <span class="tag">Conception BDD</span>
+        <span class="tag">HTML/CSS</span>
+        <span class="tag">Sécurité applicative</span>
+        <span class="tag">Tests et recette</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE : PPE2 -->
+  <div class="page" id="page-ppe2">
+    <div class="page-title">PPE2</div>
+    <div class="page-desc">Projets Pratiques Encadrés — Phase 1 et Phase 2</div>
+
+    <div class="section-label">Phase 1</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">PPE2 – Phase 1</div><div class="card-subtitle"><!-- REMPLACE --> Intitulé du projet</div></div>
+        <span class="badge badge-blue">Phase 1</span>
+      </div>
+      <div class="grid2">
+        <div class="field"><div class="field-label">Période</div><div class="field-content highlight"><!-- REMPLACE --> Octobre – Décembre 2024</div></div>
+        <div class="field"><div class="field-label">Contexte</div><div class="field-content highlight"><!-- REMPLACE --> Description du contexte de ce projet</div></div>
+      </div>
+      <div class="field"><div class="field-label">Objectifs</div><div class="field-content highlight"><!-- REMPLACE --> Décrire les objectifs de cette phase du PPE2.</div></div>
+      <div class="field"><div class="field-label">Outils utilisés</div><div class="field-content highlight"><!-- REMPLACE --> Outils, logiciels, langages employés</div></div>
+      <div class="field"><div class="field-label">Description des missions</div><div class="field-content highlight"><!-- REMPLACE --> Détailler les missions effectuées lors de cette phase.</div></div>
+      <div class="field"><div class="field-label">Schémas (réseau, BDD, diagramme de classes…)</div><div class="field-content placeholder"><!-- REMPLACE --> Liens vers schémas</div></div>
+      <div class="field"><div class="field-label">Captures d'écran</div><div class="field-content placeholder"><!-- REMPLACE --> Liens vers captures</div></div>
+      <div class="field"><div class="field-label">Problèmes rencontrés &amp; solutions</div><div class="field-content highlight"><!-- REMPLACE --> Décrire les difficultés et les solutions apportées.</div></div>
+      <div class="field"><div class="field-label">Documents PDF</div><div class="field-content placeholder"><!-- REMPLACE --> Cahier des charges, doc technique, plan de test, manuel…</div></div>
+      <div class="field"><div class="field-label">Lien vers application ou site</div><div class="field-content placeholder"><!-- REMPLACE --> URL de l'application</div></div>
+      <div class="field"><div class="field-label">Lien vers compte rendu PDF</div><div class="field-content placeholder"><!-- REMPLACE --> URL du compte rendu</div></div>
+      <hr class="divider"/>
+      <div class="field-label">Compétences mobilisées</div>
+      <div class="tags">
+        <span class="tag"><!-- REMPLACE --> Compétence 1</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 2</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 3</span>
+      </div>
+    </div>
+
+    <div class="section-label">Phase 2</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">PPE2 – Phase 2</div><div class="card-subtitle"><!-- REMPLACE --> Intitulé du projet</div></div>
+        <span class="badge badge-blue">Phase 2</span>
+      </div>
+      <div class="grid2">
+        <div class="field"><div class="field-label">Période</div><div class="field-content highlight"><!-- REMPLACE --> Janvier – Mars 2025</div></div>
+        <div class="field"><div class="field-label">Contexte</div><div class="field-content highlight"><!-- REMPLACE --> Description du contexte</div></div>
+      </div>
+      <div class="field"><div class="field-label">Objectifs</div><div class="field-content highlight"><!-- REMPLACE --> Objectifs de cette phase.</div></div>
+      <div class="field"><div class="field-label">Outils utilisés</div><div class="field-content highlight"><!-- REMPLACE --> Outils utilisés</div></div>
+      <div class="field"><div class="field-label">Description des missions</div><div class="field-content highlight"><!-- REMPLACE --> Missions effectuées.</div></div>
+      <div class="field"><div class="field-label">Schémas &amp; captures</div><div class="field-content placeholder"><!-- REMPLACE --> Liens vers supports visuels</div></div>
+      <div class="field"><div class="field-label">Problèmes &amp; solutions</div><div class="field-content highlight"><!-- REMPLACE --> Difficultés rencontrées et solutions mises en place.</div></div>
+      <div class="field"><div class="field-label">Documents PDF &amp; compte rendu</div><div class="field-content placeholder"><!-- REMPLACE --> Liens PDF</div></div>
+      <hr class="divider"/>
+      <div class="field-label">Compétences mobilisées</div>
+      <div class="tags">
+        <span class="tag"><!-- REMPLACE --> Compétence 1</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 2</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE : PPE34 -->
+  <div class="page" id="page-ppe34">
+    <div class="page-title">PPE34</div>
+    <div class="page-desc">Projets Pratiques Encadrés — Phase 1, Phase 2 et Phase 3</div>
+
+    <div class="section-label">Phase 1</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">PPE34 – Phase 1</div><div class="card-subtitle"><!-- REMPLACE --> Intitulé</div></div>
+        <span class="badge badge-orange">Phase 1</span>
+      </div>
+      <div class="grid2">
+        <div class="field"><div class="field-label">Période</div><div class="field-content highlight"><!-- REMPLACE --> Septembre – Octobre 2024</div></div>
+        <div class="field"><div class="field-label">Contexte</div><div class="field-content highlight"><!-- REMPLACE --> Contexte du projet</div></div>
+      </div>
+      <div class="field"><div class="field-label">Objectifs</div><div class="field-content highlight"><!-- REMPLACE --> Objectifs de cette phase.</div></div>
+      <div class="field"><div class="field-label">Outils utilisés</div><div class="field-content highlight"><!-- REMPLACE --> Outils</div></div>
+      <div class="field"><div class="field-label">Description des missions</div><div class="field-content highlight"><!-- REMPLACE --> Missions.</div></div>
+      <div class="field"><div class="field-label">Schémas &amp; captures</div><div class="field-content placeholder"><!-- REMPLACE --> Liens</div></div>
+      <div class="field"><div class="field-label">Problèmes &amp; solutions</div><div class="field-content highlight"><!-- REMPLACE --> Difficultés et solutions.</div></div>
+      <div class="field"><div class="field-label">Documents PDF</div><div class="field-content placeholder"><!-- REMPLACE --> Liens PDF</div></div>
+      <hr class="divider"/>
+      <div class="field-label">Compétences</div>
+      <div class="tags"><span class="tag"><!-- REMPLACE --> Compétence 1</span><span class="tag"><!-- REMPLACE --> Compétence 2</span></div>
+    </div>
+
+    <div class="section-label">Phase 2</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">PPE34 – Phase 2</div><div class="card-subtitle"><!-- REMPLACE --> Intitulé</div></div>
+        <span class="badge badge-orange">Phase 2</span>
+      </div>
+      <div class="grid2">
+        <div class="field"><div class="field-label">Période</div><div class="field-content highlight"><!-- REMPLACE --> Novembre – Janvier 2025</div></div>
+        <div class="field"><div class="field-label">Contexte</div><div class="field-content highlight"><!-- REMPLACE --> Contexte</div></div>
+      </div>
+      <div class="field"><div class="field-label">Objectifs</div><div class="field-content highlight"><!-- REMPLACE --> Objectifs.</div></div>
+      <div class="field"><div class="field-label">Outils utilisés</div><div class="field-content highlight"><!-- REMPLACE --> Outils</div></div>
+      <div class="field"><div class="field-label">Missions</div><div class="field-content highlight"><!-- REMPLACE --> Missions effectuées.</div></div>
+      <div class="field"><div class="field-label">Schémas &amp; captures</div><div class="field-content placeholder"><!-- REMPLACE --> Liens</div></div>
+      <div class="field"><div class="field-label">Problèmes &amp; solutions</div><div class="field-content highlight"><!-- REMPLACE --> Difficultés et solutions.</div></div>
+      <div class="field"><div class="field-label">Documents PDF</div><div class="field-content placeholder"><!-- REMPLACE --> Liens PDF</div></div>
+      <hr class="divider"/>
+      <div class="field-label">Compétences</div>
+      <div class="tags"><span class="tag"><!-- REMPLACE --> Compétence 1</span><span class="tag"><!-- REMPLACE --> Compétence 2</span></div>
+    </div>
+
+    <div class="section-label">Phase 3</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">PPE34 – Phase 3</div><div class="card-subtitle"><!-- REMPLACE --> Intitulé</div></div>
+        <span class="badge badge-orange">Phase 3</span>
+      </div>
+      <div class="grid2">
+        <div class="field"><div class="field-label">Période</div><div class="field-content highlight"><!-- REMPLACE --> Février – Avril 2025</div></div>
+        <div class="field"><div class="field-label">Contexte</div><div class="field-content highlight"><!-- REMPLACE --> Contexte</div></div>
+      </div>
+      <div class="field"><div class="field-label">Objectifs</div><div class="field-content highlight"><!-- REMPLACE --> Objectifs de la phase finale.</div></div>
+      <div class="field"><div class="field-label">Outils utilisés</div><div class="field-content highlight"><!-- REMPLACE --> Outils</div></div>
+      <div class="field"><div class="field-label">Missions</div><div class="field-content highlight"><!-- REMPLACE --> Missions.</div></div>
+      <div class="field"><div class="field-label">Schémas &amp; captures</div><div class="field-content placeholder"><!-- REMPLACE --> Liens</div></div>
+      <div class="field"><div class="field-label">Problèmes &amp; solutions</div><div class="field-content highlight"><!-- REMPLACE --> Difficultés et solutions.</div></div>
+      <div class="field"><div class="field-label">Documents PDF</div><div class="field-content placeholder"><!-- REMPLACE --> Liens PDF</div></div>
+      <hr class="divider"/>
+      <div class="field-label">Compétences</div>
+      <div class="tags"><span class="tag"><!-- REMPLACE --> Compétence 1</span><span class="tag"><!-- REMPLACE --> Compétence 2</span></div>
+    </div>
+  </div>
+
+  <!-- PAGE : STAGE 1 -->
+  <div class="page" id="page-stage1">
+    <div class="page-title">Stage 1</div>
+    <div class="page-desc">Missions réalisées lors du premier stage en entreprise</div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title"><!-- REMPLACE --> Computacenter Lyon</div>
+          <div class="card-subtitle"><!-- REMPLACE --> Secteur d'activité · Ville</div>
+        </div>
+        <span class="badge badge-orange">Stage 1</span>
+      </div>
+
+      <div class="grid2">
+        <div class="field"><div class="field-label">Période</div><div class="field-content highlight"><!-- REMPLACE --> Du 1/06/2026 au 04/07/2026</div></div>
+        <div class="field"><div class="field-label">Maître de stage</div><div class="field-content highlight"><!-- REMPLACE --> Salah Belkhir– </div></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Contexte &amp; présentation de l'entreprise</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Présenter l'entreprise : secteur d'activité, taille (nombre de salariés), services informatiques existants, infrastructure en place. Expliquer pourquoi ce stage et quel était votre rôle dans l'équipe.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Objectifs du stage</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Décrire ce que vous deviez accomplir pendant ce stage : objectifs pédagogiques et professionnels.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Description des missions</div>
+        <div class="field-content highlight"><!-- REMPLACE -->
+          Mission 1 : <!-- Titre mission --> — <!-- Description courte --><br/>
+          Mission 2 : <!-- Titre mission --> — <!-- Description courte --><br/>
+          Mission 3 : <!-- Titre mission --> — <!-- Description courte -->
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Outils utilisés</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Logiciels, langages, matériels, environnements utilisés pendant le stage</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Schémas (réseau, BDD, diagramme de classes…)</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Liens vers les schémas réalisés pendant le stage</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Captures d'écran</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Liens vers captures illustrant les missions</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Liens vers application ou site réalisé</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> URL de l'application ou du site développé</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Problèmes rencontrés &amp; solutions mises en place</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Décrire les difficultés techniques ou organisationnelles rencontrées et les solutions que vous avez apportées, avec éventuellement des liens vers les ressources consultées.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Liens vers documents PDF (cahier des charges, doc technique, plan de test, manuel utilisateur…)</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> www.votresiteperso.fr/stage1/cahier-des-charges.pdf</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Lien vers compte rendu PDF</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> www.votresiteperso.fr/stage1/compte-rendu.pdf</div>
+      </div>
+
+      <hr class="divider"/>
+      <div class="field-label">Liste des compétences mobilisées</div>
+      <div class="tags">
+        <span class="tag"><!-- REMPLACE --> Compétence 1</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 2</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 3</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 4</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE : STAGE 2 -->
+  <div class="page" id="page-stage2">
+    <div class="page-title">Stage 2</div>
+    <div class="page-desc">Missions réalisées lors du deuxième stage en entreprise</div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title"><!-- REMPLACE --> Nom de l'entreprise</div>
+          <div class="card-subtitle"><!-- REMPLACE --> Secteur d'activité · Ville</div>
+        </div>
+        <span class="badge badge-orange">Stage 2</span>
+      </div>
+
+      <div class="grid2">
+        <div class="field"><div class="field-label">Période</div><div class="field-content highlight"><!-- REMPLACE --> A definir</div></div>
+        <div class="field"><div class="field-label">Maître de stage</div><div class="field-content highlight"><!-- REMPLACE --> Salah Bekhir– Poste</div></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Contexte &amp; présentation de l'entreprise</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Contexte de l'entreprise d'accueil pour le stage 2.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Objectifs du stage</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Objectifs professionnels et pédagogiques.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Description des missions</div>
+        <div class="field-content highlight"><!-- REMPLACE -->
+          Mission 1 : <!-- Titre --> — <!-- Description --><br/>
+          Mission 2 : <!-- Titre --> — <!-- Description --><br/>
+          Mission 3 : <!-- Titre --> — <!-- Description -->
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Outils utilisés</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Outils, langages, environnements</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Schémas &amp; captures d'écran</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Liens vers supports visuels</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Liens vers application ou site</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> URL</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Problèmes rencontrés &amp; solutions</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Difficultés et solutions apportées.</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Documents PDF</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Liens vers documents PDF du stage 2</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Compte rendu PDF</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> URL compte rendu</div>
+      </div>
+
+      <hr class="divider"/>
+      <div class="field-label">Liste des compétences mobilisées</div>
+      <div class="tags">
+        <span class="tag"><!-- REMPLACE --> Compétence 1</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 2</span>
+        <span class="tag"><!-- REMPLACE --> Compétence 3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE : VEILLE -->
+  <div class="page" id="page-veille">
+    <div class="page-title">Veille technologique</div>
+    <div class="page-desc">Suivi de l'actualité informatique — outils, thèmes et stockage de l'information</div>
+
+    <div class="section-label">Outils de veille utilisés</div>
+    <div class="veille-grid">
+      <div class="veille-card">
+        <div class="veille-icon">🐦</div>
+        <h4>Twitter / X</h4>
+        <p>Suivi de comptes tech, développeurs, éditeurs de logiciels et experts cybersécurité.</p>
+      </div>
+      <div class="veille-card">
+        <div class="veille-icon">📰</div>
+        <h4>Netvibes</h4>
+        <p>Agrégateur de flux RSS pour centraliser les actualités de plusieurs sources.</p>
+      </div>
+      <div class="veille-card">
+        <div class="veille-icon">📋</div>
+        <h4>Flipboard</h4>
+        <p>Magazine numérique personnalisé avec sélection de thèmes informatiques.</p>
+      </div>
+      <div class="veille-card">
+        <div class="veille-icon">🤖</div>
+        <h4>Appy Geek</h4>
+        <p>Application mobile d'actualités technologiques pour une veille quotidienne.</p>
+      </div>
+    </div>
+
+    <div class="section-label">Outil de stockage de l'information</div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title"><!-- REMPLACE --> Scoop.it (ou Mindmeister / Pearltrees)</div><div class="card-subtitle">Outil de curation et stockage de la veille</div></div>
+        <span class="badge badge-green">Actif</span>
+      </div>
+      <div class="field">
+        <div class="field-label">Type d'outil</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Outil de curation de contenu (Scoop.it) — OU — Carte mentale en ligne (Mindomo, Mindmeister, Mindmup) — OU — Arbre à perles (Pearltrees)</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Lien vers l'outil de veille</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> https://www.scoop.it/u/votre-profil</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Description de l'organisation</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Expliquer comment vous organisez votre veille : topics créés, fréquence de mise à jour, sources suivies.</div>
+      </div>
+    </div>
+
+    <div class="section-label">Thèmes de veille précis</div>
+
+    <div class="card">
+      <div class="card-header"><div><div class="card-title"><!-- REMPLACE --> Thème 1 : Intelligence Artificielle</div></div><span class="badge badge-blue">Thème 1</span></div>
+      <div class="field">
+        <div class="field-label">Pourquoi ce thème ?</div>
+        <div class="field-content highlight"><!-- REMPLACE --> L'IA générative transforme profondément les métiers de l'informatique. Comprendre ses applications (GitHub Copilot, ChatGPT API) est essentiel pour anticiper les évolutions du marché.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Sources suivies</div>
+        <div class="field-content highlight"><!-- REMPLACE --> @OpenAI sur Twitter · Blog Google AI · MIT Technology Review · Flux RSS Numerama IA</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Article / actualité récente</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Titre de l'article + lien + résumé en 2 lignes</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div><div class="card-title"><!-- REMPLACE --> Thème 2 : Cybersécurité</div></div><span class="badge badge-red">Thème 2</span></div>
+      <div class="field">
+        <div class="field-label">Pourquoi ce thème ?</div>
+        <div class="field-content highlight"><!-- REMPLACE --> La cybersécurité est au cœur des préoccupations des entreprises. Suivre les actualités sur les vulnérabilités, les attaques et les bonnes pratiques est indispensable en BTS SIO.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Sources suivies</div>
+        <div class="field-content highlight"><!-- REMPLACE --> ANSSI · @troyhunt · CERT-FR · Blog Kaspersky · Flux RSS LeMagIT Sécurité</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Article / actualité récente</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Titre de l'article + lien + résumé en 2 lignes</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div><div class="card-title"><!-- REMPLACE --> Thème 3 : Cloud Computing</div></div><span class="badge badge-orange">Thème 3</span></div>
+      <div class="field">
+        <div class="field-label">Pourquoi ce thème ?</div>
+        <div class="field-content highlight"><!-- REMPLACE --> Le cloud (AWS, Azure, GCP) est devenu incontournable dans les infrastructures modernes. Suivre son évolution permet de se préparer aux besoins des entreprises.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Sources suivies</div>
+        <div class="field-content highlight"><!-- REMPLACE --> AWS Blog · Microsoft Azure Updates · @kelseyhightower · Le Cloud France</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Article / actualité récente</div>
+        <div class="field-content placeholder"><!-- REMPLACE --> Titre de l'article + lien + résumé en 2 lignes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE : DOCUMENTS -->
+  <div class="page" id="page-docs">
+    <div class="page-title">Documents obligatoires</div>
+    <div class="page-desc">Cochez chaque document au fur et à mesure que vous le collectez. Tous sont requis pour l'épreuve E6.</div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom:1.25rem">Checklist documents</div>
+      <ul class="checklist" id="checklist">
+        <li class="check-item" onclick="toggleDoc(this)">
+          <div class="check-box"><div class="check-icon"></div></div>
+          <div class="check-text">Attestation stage 1 avec missions <strong>signée par l'entreprise</strong></div>
+          <span class="check-status">En attente</span>
+        </li>
+        <li class="check-item" onclick="toggleDoc(this)">
+          <div class="check-box"><div class="check-icon"></div></div>
+          <div class="check-text">Tableau de synthèse stage 1 (Excel) des compétences <strong>signé par l'entreprise</strong></div>
+          <span class="check-status">En attente</span>
+        </li>
+        <li class="check-item" onclick="toggleDoc(this)">
+          <div class="check-box"><div class="check-icon"></div></div>
+          <div class="check-text">Attestation stage 2 avec missions <strong>signée par l'entreprise</strong></div>
+          <span class="check-status">En attente</span>
+        </li>
+        <li class="check-item" onclick="toggleDoc(this)">
+          <div class="check-box"><div class="check-icon"></div></div>
+          <div class="check-text">Tableau de synthèse stage 2 (Excel) des compétences <strong>signé par l'entreprise</strong></div>
+          <span class="check-status">En attente</span>
+        </li>
+        <li class="check-item" onclick="toggleDoc(this)">
+          <div class="check-box"><div class="check-icon"></div></div>
+          <div class="check-text">Tableau de synthèse PPE1234 (Excel) des compétences <strong>signé par les enseignants</strong></div>
+          <span class="check-status">En attente</span>
+        </li>
+      </ul>
+
+      <hr class="divider"/>
+      <div class="field-label">Avancement</div>
+      <div class="progress-wrap"><div class="progress-fill" id="doc-progress" style="width:0%"></div></div>
+      <div class="progress-label" id="doc-label">0 / 5 documents collectés</div>
+    </div>
+
+    <div class="section-label">Rappel : Hébergement du portfolio</div>
+    <div class="grid3">
+      <div class="card">
+        <div class="card-title" style="font-size:14px;margin-bottom:8px">Options gratuites</div>
+        <div style="font-size:13px;color:var(--muted2);line-height:1.8">
+          Wix (wix.com)<br/>
+          WordPress.com<br/>
+          GitHub Pages
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size:14px;margin-bottom:8px">Avec nom de domaine</div>
+        <div style="font-size:13px;color:var(--muted2);line-height:1.8">
+          OVH (~30€/an)<br/>
+          1And1 / IONOS (~40€/an)<br/>
+          Nuxit (~40€/an)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size:14px;margin-bottom:8px">CMS recommandés</div>
+        <div style="font-size:13px;color:var(--muted2);line-height:1.8">
+          WordPress<br/>
+          Joomla<br/>
+          CMS spécifique hébergeur
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.mobile-nav a').forEach(l => l.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => {
+      if (l.getAttribute('onclick') && l.getAttribute('onclick').includes("'" + id + "'")) l.classList.add('active');
+    });
+    document.querySelectorAll('.mobile-nav a').forEach(l => {
+      if (l.getAttribute('onclick') && l.getAttribute('onclick').includes("'" + id + "'")) l.classList.add('active');
+    });
+    window.scrollTo({ top: 0 });
+  }
+
+  function toggleDoc(item) {
+    item.classList.toggle('done');
+    const status = item.querySelector('.check-status');
+    status.textContent = item.classList.contains('done') ? 'Obtenu' : 'En attente';
+    updateDocProgress();
+  }
+
+  function updateDocProgress() {
+    const total = document.querySelectorAll('.check-item').length;
+    const done = document.querySelectorAll('.check-item.done').length;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('doc-progress').style.width = pct + '%';
+    document.getElementById('doc-label').textContent = done + ' / ' + total + ' documents collectés';
+    document.getElementById('stat-docs').textContent = done + '/5';
+    const hpf = document.getElementById('home-progress-fill');
+    const hpl = document.getElementById('home-progress-label');
+    if (hpf) { hpf.style.width = pct + '%'; hpl.textContent = done + ' / ' + total + ' documents collectés'; }
+  }
+</script>
+</body>
+</html>
